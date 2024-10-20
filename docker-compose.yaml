@@ -1,0 +1,42 @@
+version: "3"
+
+networks:
+  application:
+    driver: bridge
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: admin-dashboard-boilerplate
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db  # Use 'db' to match the service name of the PostgreSQL container
+    networks:
+      - application
+    entrypoint: ['/bin/sh', '-c']
+    command: 
+      - |
+        composer install && \
+        php artisan migrate && \
+        php artisan serve --host=0.0.0.0 --port=4000
+
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=admin_dashboard_boilerplate
+    networks:
+      - application
+    container_name: admin-pgdb
