@@ -46,7 +46,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
                     />
-
+    
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
@@ -73,7 +73,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ms-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ms-2 text-sm text-gray-600">Remember mea</span>
                     </label>
                 </div>
 
