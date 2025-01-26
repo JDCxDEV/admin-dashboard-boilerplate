@@ -64,3 +64,180 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# Admin Dashboard Boilerplate
+
+## Overview
+This project is an **Admin Dashboard Boilerplate** built with:
+- **Laravel**: As the backend framework for handling business logic, database operations, and API endpoints.
+- **React**: For building a dynamic and responsive user interface.
+- **Next.js**: To enable server-side rendering and improved performance for React-based applications.
+- **Tailwind CSS**: For creating sleek and modern UI components with a utility-first CSS framework.
+
+This boilerplate is designed to streamline the development of admin panels, providing essential core functionalities out of the box.
+
+---
+
+## Features
+- **User Authentication**:
+  - Login, registration, and password recovery.
+  - Role-based access control.
+- **API Integration**:
+  - Laravel-powered RESTful APIs for efficient communication between frontend and backend.
+- **Responsive Design**:
+  - Fully responsive UI with Tailwind CSS for seamless display across devices.
+- **Reusable Components**:
+  - Pre-built React components for common admin functionalities (e.g., tables, forms, modals).
+- **Server-side Rendering**:
+  - Enhanced SEO and performance using Next.js SSR.
+- **Database Integration**:
+  - Eloquent ORM for database operations.
+
+---
+
+## Prerequisites
+Ensure the following tools are installed on your local machine:
+
+1. **Node.js** (version 18 or higher)
+2. **NPM** (Node Package Manager) or **Yarn**
+3. **PHP** (version 8.0 or higher)
+4. **Composer**
+5. **MySQL** or any other database of your choice
+6. **Laravel Installer**
+
+---
+
+## Installation
+
+Follow these steps to set up and run the project locally:
+
+### Step 1: Clone the Repository
+```bash
+git clone <repository-url>
+cd admin-dashboard-boilerplate
+```
+
+### Step 2: Backend Setup
+1. Navigate to the Laravel backend directory:
+   ```bash
+   cd backend
+   ```
+2. Install Laravel dependencies:
+   ```bash
+   composer install
+   ```
+3. Create a `.env` file by copying the example:
+   ```bash
+   cp .env.example .env
+   ```
+4. Update the `.env` file with your database and other environment configurations.
+5. Generate the application key:
+   ```bash
+   php artisan key:generate
+   ```
+6. Run migrations to set up the database:
+   ```bash
+   php artisan migrate
+   ```
+7. Start the Laravel server:
+   ```bash
+   php artisan serve
+   ```
+
+### Step 3: Frontend Setup
+1. Navigate to the React/Next.js frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+---
+
+## Project Structure
+
+### Backend (Laravel)
+```
+backend/
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+├── public/
+├── resources/
+├── routes/
+├── storage/
+└── tests/
+```
+
+### Frontend (React + Next.js)
+```
+frontend/
+├── components/
+├── pages/
+├── public/
+├── styles/
+├── utils/
+└── tailwind.config.js
+```
+
+---
+
+## Scripts
+
+### Backend (Laravel)
+- **Start Laravel Server**:
+  ```bash
+  php artisan serve
+  ```
+- **Run Tests**:
+  ```bash
+  php artisan test
+  ```
+
+### Frontend (React + Next.js)
+- **Start Development Server**:
+  ```bash
+  npm run dev
+  ```
+- **Build for Production**:
+  ```bash
+  npm run build
+  ```
+- **Run Production Server**:
+  ```bash
+  npm start
+  ```
+
+---
+
+## Contributing
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch-name`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch-name`).
+5. Open a pull request.
+
+---
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Acknowledgments
+- [Laravel](https://laravel.com/)
+- [React](https://reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
