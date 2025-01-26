@@ -34,16 +34,6 @@ export default function Authenticated({
 
                 {/* Main section */}
                 <main className="flex-1 overflow-y-auto p-6">
-                    {/* Header for Dashboard with Profile */}
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-2xl font-bold">
-                            Dashboard | Profile
-                        </h3>
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-gray-200 transition duration-200">
-                            Settings
-                        </button>
-                    </div>
-
                     {/* Children content */}
                     {children}
                 </main>
