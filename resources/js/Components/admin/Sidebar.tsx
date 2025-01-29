@@ -68,42 +68,18 @@ export default function Sidebar({
                 </button>
             </div>
             <nav className="mt-5 space-y-2 px-4">
-                <a
-                    href="#"
+                <Link
+                    href={route("dashboard")}
                     className="block py-2.5 px-4 rounded hover:bg-gray-700 transition duration-200"
                 >
                     Home
-                </a>
-                <a
-                    href="#"
+                </Link>
+                <Link
+                    href={route("profile.edit")}
                     className="block py-2.5 px-4 rounded hover:bg-gray-700 transition duration-200"
                 >
                     Profile
-                </a>
-                <a
-                    href="#"
-                    className="block py-2.5 px-4 rounded hover:bg-gray-700 transition duration-200"
-                >
-                    Settings
-                </a>
-                <a
-                    href="#"
-                    className="block py-2.5 px-4 rounded hover:bg-gray-700 transition duration-200"
-                >
-                    Messages
-                </a>
-                <a
-                    href="#"
-                    className="block py-2.5 px-4 rounded hover:bg-gray-700 transition duration-200"
-                >
-                    Analytics
-                </a>
-                <a
-                    href="#"
-                    className="block py-2.5 px-4 rounded hover:bg-gray-700 transition duration-200"
-                >
-                    Logout
-                </a>
+                </Link>
             </nav>
         </aside>
     );
