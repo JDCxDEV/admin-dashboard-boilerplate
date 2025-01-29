@@ -9,11 +9,11 @@ const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 // Function to resolve Inertia page components
 const resolveComponent = (name: string) => {
-    const path = name === "Dashboard" ? "Dashboard/index.tsx" : `${name}.tsx`;
+    const path = name == "Dashboard" ? "Dashboard/Index.tsx" : `${name}.tsx`;
     return resolvePageComponent(
         `./Pages/${path}`,
         import.meta.glob("./Pages/**/*.tsx")
-    );
+    ) as Promise<any>;
 };
 
 createInertiaApp({
