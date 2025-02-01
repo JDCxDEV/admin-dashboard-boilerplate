@@ -1,39 +1,31 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
-import ToggleBox from "@/Components/ToggleBox";
-import TextInput from "@/Components/TextInput";
-import { Link, useForm, usePage } from "@inertiajs/react";
-import { Transition } from "@headlessui/react";
+import ConfirmPasswordModal from "@/Pages/Auth/ConfirmPasswordModal";
+import Modal from "@/Components/Modal";
 import { FormEventHandler, useEffect, useState } from "react";
-import { PageProps } from "@/types";
 import axios from "axios";
 
 export default function TwoAuthSetting({
-    mustVerifyEmail,
-    status,
     className = "",
 }: {
-    mustVerifyEmail: boolean;
     status?: string;
     className?: string;
 }) {
 
-     const [svgContent, setSvgContent] = useState<string>(""); // State to hold SVG content
+    const [svgContent, setSvgContent] = useState<string>("");
+    const [startEnablingTwoFactorAuth, setEnablingTwoFactorAuth] =
+        useState(false);    
 
      const fetchQrCode = async () => {
          try {
 
              const response = await axios.get("/user/two-factor-qr-code");
-             setSvgContent(response.data); // Update state with SVG content
+             setSvgContent(response.data);
          } catch (error) {
              console.error("Error fetching QR code:", error);
          }
      };
 
-     const enableTwoFactorAuth: FormEventHandler = async (e) => {
-         e.preventDefault();
-
+    const enableTwoFactorAuth =async () => {
          try {
              const response = await axios.post(
                  "/user/two-factor-authentication"
@@ -42,16 +34,25 @@ export default function TwoAuthSetting({
                  "Two-factor authentication enabled successfully:",
                  response.data
              );
-             fetchQrCode(); // After enabling, fetch QR code immediately
+             fetchQrCode();
          } catch (error) {
              console.error("Error enabling two-factor authentication:", error);
          }
-     };
+    };
 
+    const startEnableTwoFactorAuth: FormEventHandler = async (e) => {
+        e.preventDefault();
+        setEnablingTwoFactorAuth(true);
+    };
+
+    const closeModal = () => {
+        setEnablingTwoFactorAuth(false);
+    };
+    
+    
      useEffect(() => {
-         // On component mount, fetch QR code if already enabled
-         fetchQrCode();
-     }, []); // Empty dependency array ensures this runs only once on mount
+        fetchQrCode();
+     }, []);
 
     return (
         <section className={className}>
@@ -67,15 +68,18 @@ export default function TwoAuthSetting({
                 </p>
             </header>
 
-            <form onSubmit={enableTwoFactorAuth} className="mt-6 space-y-6">
+            <form
+                onSubmit={startEnableTwoFactorAuth}
+                className="mt-6 space-y-6"
+            >
                 <div className="flex items-center gap-4">
-                    <PrimaryButton>
-                        Enable 2Auth
-                    </PrimaryButton>
+                    <PrimaryButton>Enable 2Auth</PrimaryButton>
                     <div dangerouslySetInnerHTML={{ __html: svgContent.svg }} />
-
                 </div>
             </form>
+            <Modal show={startEnablingTwoFactorAuth} onClose={closeModal}>
+                <ConfirmPasswordModal onSuccess={enableTwoFactorAuth} />
+            </Modal>
         </section>
     );
 }
