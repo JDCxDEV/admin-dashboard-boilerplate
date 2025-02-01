@@ -49,9 +49,10 @@ export default function TwoAuthSetting({
                     "/user/two-factor-authentication"
                 );
  
-                if (response.status === 200) {
-                    setCurrentStep("authentication-code");
-                    fetchQrCode();
+             if (response.status === 200) {
+                    await fetchQrCode();
+                    await setCurrentStep("authentication-code");
+              
                 }
          } catch (error) {
             console.error("Error enabling two-factor authentication:", error);
@@ -125,7 +126,11 @@ export default function TwoAuthSetting({
                     <PrimaryButton>Enable 2Auth</PrimaryButton>
                 </div>
             </form>
-            <Modal show={startEnablingTwoFactorAuth} onClose={closeModal}>
+            <Modal
+                show={startEnablingTwoFactorAuth}
+                onClose={closeModal}
+                closeable={false}
+            >
                 {currentStep == "confirm-password" && (
                     <ConfirmPasswordModal onSuccess={enableTwoFactorAuth} />
                 )}
