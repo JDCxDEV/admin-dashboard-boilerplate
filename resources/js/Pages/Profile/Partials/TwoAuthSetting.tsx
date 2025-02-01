@@ -19,6 +19,7 @@ export default function TwoAuthSetting({
     const [startEnablingTwoFactorAuth, setEnablingTwoFactorAuth] =
         useState(false);
     const [currentStep, setCurrentStep] = useState<string>("confirm-password");
+    const [copiedCodes, setCopiedCodes] = useState<boolean>(false);
     
 
     const fetchQrCode = async () => {
@@ -91,6 +92,15 @@ export default function TwoAuthSetting({
     const closeModal = () => {
         setEnablingTwoFactorAuth(false);
     };
+
+    const copyCodes = () => {
+        const codesText = recoveryCodes.join(" \n");
+        navigator.clipboard
+        .writeText(codesText)
+        .then(() => {
+            setCopiedCodes(true); 
+        })
+};
     
 
     return (
@@ -173,7 +183,12 @@ export default function TwoAuthSetting({
                                     </div>
                                 ))}
                             </div>
-                            <PrimaryButton type="submit">
+                            {copiedCodes && (
+                                <p className="text-green-500 text-sm m-2">
+                                    Codes copied to clipboard!
+                                </p>
+                            )}
+                            <PrimaryButton onClick={copyCodes}>
                                 Copy Codes
                             </PrimaryButton>
                         </div>
