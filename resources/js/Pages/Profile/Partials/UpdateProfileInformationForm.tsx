@@ -71,12 +71,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.email} />
                 </div>
 
-                <div>
-                    <ToggleBox isChecked={true} onChange={handleToggleChange}>
-                        Toggle me
-                    </ToggleBox>
-                </div>
-
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
                         <p className="text-sm mt-2 text-gray-800">

@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Laravel\Fortify\Fortify;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -59,5 +60,20 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Get the user's two-factor authentication QR code SVG.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function twoFactorQrCodeSvg(Request $request): Response
+    {
+        // Retrieve the user's two-factor authentication QR code SVG
+        $svg = Auth::user()->twoFactorQrCodeSvg();
+
+        return response($svg)
+            ->header('Content-Type', 'image/svg+xml');
     }
 }
