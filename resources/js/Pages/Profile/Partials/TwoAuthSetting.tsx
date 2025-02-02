@@ -4,14 +4,17 @@ import TextInput from "@/Components/TextInput";
 import Modal from "@/Components/Modal";
 import { FormEventHandler, useState } from "react";
 import axios from "axios";
+import { usePage, router } from "@inertiajs/react";
+import { PageProps } from "@/types";
 
 export default function TwoAuthSetting({
     className = "",
+    status = null,
 }: {
-    status?: string;
+    status?: any;
     className?: string;
-}) {
-
+    }) {
+    const user = usePage<PageProps>().props.auth.user;
     const [svgContent, setSvgContent] = useState<any>("");
     const [authCode, setAuthCode] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -20,43 +23,42 @@ export default function TwoAuthSetting({
         useState(false);
     const [currentStep, setCurrentStep] = useState<string>("confirm-password");
     const [copiedCodes, setCopiedCodes] = useState<boolean>(false);
-    
 
     const fetchQrCode = async () => {
-         setCurrentStep
-         try {
-
+        setCurrentStep;
+        try {
             const response = await axios.get("/user/two-factor-qr-code");
             setSvgContent(response.data);
-         } catch (error) {
-             console.error("Error fetching QR code:", error);
-         }
+        } catch (error) {
+            console.error("Error fetching QR code:", error);
+        }
     };
-    
+
     const fetchRecoveryCodes = async () => {
         try {
             const response = await axios.get("/user/two-factor-recovery-codes");
             setRecoveryCodes(response.data);
         } catch (error) {
             console.error("Error fetching recovery codes:", error);
-            setErrorMessage("Failed to fetch recovery codes. Please try again.");
+            setErrorMessage(
+                "Failed to fetch recovery codes. Please try again."
+            );
         }
     };
 
     const enableTwoFactorAuth = async () => {
-         try {
-                const response = await axios.post(
-                    "/user/two-factor-authentication"
-                );
- 
-             if (response.status === 200) {
-                    await fetchQrCode();
-                    await setCurrentStep("authentication-code");
-              
-                }
-         } catch (error) {
+        try {
+            const response = await axios.post(
+                "/user/two-factor-authentication"
+            );
+
+            if (response.status === 200) {
+                await fetchQrCode();
+                await setCurrentStep("authentication-code");
+            }
+        } catch (error) {
             console.error("Error enabling two-factor authentication:", error);
-         }
+        }
     };
 
     const confirmTwoFactorAuth: FormEventHandler = async (e) => {
@@ -70,9 +72,8 @@ export default function TwoAuthSetting({
             );
 
             if (response.status === 200) {
-                
                 await fetchRecoveryCodes();
-                 await setCurrentStep("recovery-codes");
+                await setCurrentStep("recovery-codes");
                 console.log(
                     "Two-factor authentication confirmed successfully!"
                 );
@@ -84,25 +85,27 @@ export default function TwoAuthSetting({
         }
     };
 
-
     const startEnableTwoFactorAuth: FormEventHandler = async (e) => {
         e.preventDefault();
         setEnablingTwoFactorAuth(true);
     };
 
     const closeModal = () => {
-        setEnablingTwoFactorAuth(false);
+        setEnablingTwoFactorAuth(false);;
+    };
+
+    const reloadPage = async () => {
+        router.visit(route("profile.edit", { tab: "login-and-security" }), {
+            except: ["users"],
+        });
     };
 
     const copyCodes = () => {
         const codesText = recoveryCodes.join(" \n");
-        navigator.clipboard
-        .writeText(codesText)
-        .then(() => {
-            setCopiedCodes(true); 
-        })
-};
-    
+        navigator.clipboard.writeText(codesText).then(() => {
+            setCopiedCodes(true);
+        });
+    };
 
     return (
         <section className={className}>
@@ -123,13 +126,16 @@ export default function TwoAuthSetting({
                 className="mt-6 space-y-6"
             >
                 <div className="flex items-center gap-4">
-                    <PrimaryButton>Enable 2Auth</PrimaryButton>
+                    <PrimaryButton disabled={status ? true : false}>
+                        Enable 2Auth
+                    </PrimaryButton>
                 </div>
             </form>
             <Modal
                 show={startEnablingTwoFactorAuth}
                 onClose={closeModal}
                 closeable={false}
+                isManualClose={reloadPage}
             >
                 {currentStep == "confirm-password" && (
                     <ConfirmPasswordModal onSuccess={enableTwoFactorAuth} />
