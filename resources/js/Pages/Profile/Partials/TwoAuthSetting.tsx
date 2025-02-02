@@ -112,6 +112,13 @@ export default function TwoAuthSetting({
             <header>
                 <h2 className="text-lg font-medium text-gray-900">
                     Enable Two-Factor Authentication
+                    {(status
+                        ? true
+                        : false) && (
+                              <span className="bg-green-500 text-white font-bold text-xs px-2 py-0.5 rounded-full ml-3">
+                                  Activated
+                              </span>
+                          )}
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
